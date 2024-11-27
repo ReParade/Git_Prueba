@@ -1,0 +1,32 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "PascalCase Variable Naming Rule",
+    "type": "object",
+    "properties": {
+      "namingRules": {
+        "type": "object",
+        "description": "Rules for naming variables",
+        "properties": {
+          "variableNaming": {
+            "type": "object",
+            "description": "Rule for variable naming convention",
+            "properties": {
+              "allowedPattern": {
+                "type": "string",
+                "description": "Pattern for allowed variable names.",
+                "default": "^[a-z][a-zA-Z0-9]*$",
+                "pattern": "^[a-z][a-zA-Z0-9]*$"
+              },
+              "pascalCaseWarning": {
+                "type": "boolean",
+                "description": "If true, variables in PascalCase will be warned.",
+                "default": true
+              }
+            },
+            "required": ["allowedPattern", "pascalCaseWarning"]
+          }
+        },
+        "required": ["variableNaming"]
+      }
+    }
+  }
