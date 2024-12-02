@@ -4,19 +4,31 @@ $sharedEditorConfigUrl = "https://raw.githubusercontent.com/ReParade/Git_Prueba/
 # Ruta local del archivo
 $localEditorConfig = ".editorconfig"
 
-# Función para obtener el encabezado Last-Modified del archivo remoto
-function Get-LastModifiedHeader($url) {
-    $response = Invoke-WebRequest -Uri $url -Method Head
-    return $response.Headers["Last-Modified"]
+# Función para obtener la versión del archivo .editorconfig (desde un comentario en la primera línea)
+function Get-EditorConfigVersion($filePath) {
+    $firstLine = Get-Content $filePath | Select-Object -First 1
+    if ($firstLine -match "#\s*version=(\S+)") {
+        return $matches[1]
+    }
+    return $null  # Si no se encuentra la versión, retornar null
 }
 
-# Obtener la fecha de modificación del archivo remoto
-$remoteLastModified = Get-LastModifiedHeader $sharedEditorConfigUrl
+# Obtener la versión del archivo remoto
+function Get-RemoteEditorConfigVersion($url) {
+    $tempFile = [System.IO.Path]::GetTempFileName()
+    Invoke-WebRequest -Uri $url -OutFile $tempFile
+    $version = Get-EditorConfigVersion $tempFile
+    Remove-Item $tempFile
+    return $version
+}
 
-# Verificar si el archivo local no existe o si está desactualizado
-if (-Not (Test-Path $localEditorConfig) -or $remoteLastModified -ne (Get-Item $localEditorConfig).LastWriteTime) {
-    Write-Host "El archivo ha cambiado o no existe, actualizando..."
-    # Descargar el archivo remoto
+# Obtener la versión remota y local
+$remoteVersion = Get-RemoteEditorConfigVersion $sharedEditorConfigUrl
+$localVersion = if (Test-Path $localEditorConfig) { Get-EditorConfigVersion $localEditorConfig } else { $null }
+
+# Verificar si las versiones son diferentes
+if ($remoteVersion -ne $localVersion) {
+    Write-Host "El archivo .editorconfig tiene una versión diferente, actualizando..."
     Invoke-WebRequest -Uri $sharedEditorConfigUrl -OutFile $localEditorConfig
     Write-Host "Archivo .editorconfig actualizado."
 } else {
