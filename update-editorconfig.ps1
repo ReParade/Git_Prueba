@@ -1,10 +1,11 @@
-# Buscar la raíz de la solución (ubicación del archivo .sln más cercano)
+# Buscar la raíz de la solución (.sln más cercano)
 function Get-SolutionRoot {
     $currentDir = Get-Location
-    while (-not (Test-Path (Join-Path $currentDir "*.sln"))) {
+    Write-Host "Buscando archivo .sln desde: $currentDir"
+    while (-not (Get-ChildItem -Path $currentDir -Filter "*.sln" -File -ErrorAction SilentlyContinue)) {
         $parentDir = $currentDir.Parent
         if (-not $parentDir) {
-            throw "No se encontró un archivo .sln en la jerarquía de directorios."
+            throw "No se encontró un archivo .sln en la jerarquía de directorios desde $currentDir."
         }
         $currentDir = $parentDir
     }
@@ -14,6 +15,7 @@ function Get-SolutionRoot {
 # Obtener la ruta de la raíz de la solución
 try {
     $solutionRoot = Get-SolutionRoot
+    Write-Host "Raíz de la solución encontrada en: $solutionRoot"
 } catch {
     Write-Host "Error: $($_.Exception.Message)"
     exit 1
