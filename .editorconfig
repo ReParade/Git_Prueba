@@ -1,3 +1,4 @@
+# version=0.0.1
 ; EditorConfig to support per-solution formatting.
 ; Use the EditorConfig VS add-in to make this work.
 ; http://editorconfig.org/
@@ -11,7 +12,6 @@
 ; then the rule will be silently ignored.
 
 ; This is the default for the codeline.
-# version=0.0.1
 root = false
 
 [*]
