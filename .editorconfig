@@ -86,6 +86,22 @@ dotnet_naming_symbols.interfaces.required_modifiers =
 dotnet_naming_style.interface_prefix.capitalization = pascal_case
 dotnet_naming_style.interface_prefix.required_prefix = I
 
+# Naming rule: Local variables should use snake_case
+dotnet_naming_rule.local_variables_should_be_snake_case.severity = warning
+dotnet_naming_rule.local_variables_should_be_snake_case.symbols = local_variables
+dotnet_naming_rule.local_variables_should_be_snake_case.style = snake_case
+
+# Symbol specification for local variables
+dotnet_naming_symbols.local_variables.applicable_kinds = local
+dotnet_naming_symbols.local_variables.applicable_accessibilities = *
+dotnet_naming_symbols.local_variables.required_modifiers = 
+
+# Naming style for snake_case
+dotnet_naming_style.snake_case.required_prefix = 
+dotnet_naming_style.snake_case.required_suffix = 
+dotnet_naming_style.snake_case.word_separator = _
+dotnet_naming_style.snake_case.capitalization = all_lower
+
 ## Spaces between operators
 space_before_binary_operators = true
 space_after_binary_operators = true
