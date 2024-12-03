@@ -32,5 +32,5 @@ if ($remoteVersion -ne $localVersion) {
     Invoke-WebRequest -Uri $sharedEditorConfigUrl -OutFile $localEditorConfig
     Write-Host "Archivo .editorconfig actualizado."
 } else {
-    Write-Host "El archivo .editorconfig ya está actualizado."
+    Write-Host "El archivo .editorconfig ya esta actualizado."
 }
