@@ -13,7 +13,7 @@
 ; then the rule will be silently ignored.
 
 ; This is the default for the codeline.
-root = false
+root = true
 
 [*]
 indent_style = space
